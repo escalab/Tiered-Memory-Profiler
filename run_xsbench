@@ -1,0 +1,11 @@
+#!/bin/bash
+XS=/home/jinyoungchoi/work/XSBench/openmp-threading
+
+EVNT_LLC=mem_load_retired.l3_miss:p
+EVNT=$EVNT_LLC
+
+sudo perf record -o out/out.perf -c 65536 -a --phys-data -d -e $EVNT $XS/XSBench
+sudo perf script -i out/out.perf > out/out.txt
+
+sudo python3 pyscript/gen_hm_np.py
+sudo python3 pyscript/heatmap.py
