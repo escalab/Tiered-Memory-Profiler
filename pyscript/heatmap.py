@@ -14,7 +14,6 @@ from matplotlib.ticker import (AutoMinorLocator, MultipleLocator)
 
 FT=4
 ROW=512*FT
-DIV=134217728/FT
 
 # heatmap
 def plot_heatmap(data1, h1):
@@ -24,23 +23,20 @@ def plot_heatmap(data1, h1):
     cb1 = plt.colorbar()
     cb1.ax.tick_params(labelsize=5)
 
-    yt = np.empty(ROW, dtype='object')
+    yt = np.empty(18, dtype='object')
     yt[0] = '0x000000000'
-    for x in range(ROW):
+    for x in range(18):
         if(x is 0):
             continue
         h_x = x*0x100000000
         yt[x] = str(hex(h_x))
-
     plt.yticks(range(ROW)[::30*FT], yt, fontsize=6)
     plt.ylabel("Physical Address")
     plt.xlabel("Time (sec)")
     plt.tight_layout()
-    print('save figure: heatmap')
     plt.savefig('./out/heatmap.pdf', dpi=300)
 
 f_pebs='./out/np.npy'
 data_pebs = np.load(f_pebs)
 
-#data_pebs[0,1] = 10
 plot_heatmap(data_pebs, 'PEBS')

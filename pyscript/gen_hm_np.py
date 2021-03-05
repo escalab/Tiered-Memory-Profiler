@@ -58,19 +58,17 @@ with open(f_pebs) as fp:
 
         if(line[2][0] == '['):
             tempt = line[3].split('.')
-            tempa = line[14].split(',')
-            paddr = int(tempa[0], 16)
+            paddr = int(line[15], 16)
         elif(line[3][0] == '['):
             tempt = line[4].split('.')
-            tempa = line[15].split(',')
-            paddr = int(tempa[0], 16)
+            paddr = int(line[16], 16)
         else:
             tempt = line[5].split('.')
-            tempa = line[16].split(',')
-            paddr = int(tempa[0], 16)
+            paddr = int(line[17], 16)
 
         cur_time = int(tempt[0])
 
+        #print(tempt[0], hex(paddr))
         # 14 : LDA
         if((paddr == 0)):
             continue
@@ -80,7 +78,6 @@ with open(f_pebs) as fp:
         pa_idx = int(paddr/DIV)
         if(data_pebs[pa_idx, cur_time - init_t +1] < 10):
             data_pebs[pa_idx, cur_time - init_t +1] += 1
-
 
 filename = './out/np'
 np.save(filename, data_pebs)
